@@ -1,0 +1,32 @@
+{
+   "name":"antoineaugusti/google-books",
+   "description":"Simple Google Books API client",
+   "keywords":[
+      "google",
+      "books",
+      "book",
+      "isbn"
+   ],
+   "homepage":"https://github.com/AntoineAugusti/google-books",
+   "license":"MIT",
+   "authors":[
+      {
+         "name":"Antoine Augusti",
+         "email":"antoine.augusti@gmail.com",
+         "role":"Developer"
+      }
+   ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev":{
+      "phpunit/phpunit": "^4.8"
+   },
+   "autoload":{
+      "psr-4":{
+         "AntoineAugusti\\Books\\":"src/",
+         "AntoineAugusti\\Tests\\Books\\":"tests/"
+      }
+   },
+   "minimum-stability":"stable"
+}
