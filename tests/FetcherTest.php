@@ -53,6 +53,26 @@ class FetcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function it_sets_to_null_if_data_unavailable()
+    {
+        $res = $this->fetcher->forISBN('9780307957023');
+
+        $this->assertNull($res->subtitle);
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_to_empty_if_data_unavailable()
+    {
+        $res = $this->fetcher->forISBN('9781491929124');
+
+        $this->assertEquals([], $res->categories);
+    }
+
+    /**
+     * @test
      * @expectedException AntoineAugusti\Books\InvalidResponseException
      * @expectedExceptionMessage Invalid response. Status: 404. Body:
      */
