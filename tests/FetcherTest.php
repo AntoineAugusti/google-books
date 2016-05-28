@@ -3,13 +3,13 @@
 namespace AntoineAugusti\Tests\Books;
 
 use AntoineAugusti\Books\Fetcher;
+use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
-use DateTime;
 
 class FetcherTest extends PHPUnit_Framework_TestCase
 {

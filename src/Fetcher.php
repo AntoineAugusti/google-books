@@ -2,9 +2,9 @@
 
 namespace AntoineAugusti\Books;
 
+use DateTime;
 use GuzzleHttp\ClientInterface;
 use InvalidArgumentException;
-use DateTime;
 
 class Fetcher
 {
@@ -39,7 +39,7 @@ class Fetcher
 
         // Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9780142181119
         $response = $this->client->request('GET', 'volumes', [
-            'query' => ['q' => 'isbn:'.$isbn],
+            'query'       => ['q' => 'isbn:'.$isbn],
             'http_errors' => false,
         ]);
 
