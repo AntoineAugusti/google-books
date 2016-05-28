@@ -55,19 +55,38 @@ class Fetcher
             throw new InvalidResponseException('Did not get 1 result. Got: '.$totalItems);
         }
 
+        return $this->extractBook($res);
+    }
+
+    private function extractBook($res)
+    {
         $item = $res['items'][0];
 
+        $publishedDate = null;
+        if (array_key_exists('publishedDate', $item['volumeInfo'])) {
+            $publishedDate = DateTime::createFromFormat('Y-m-d', $item['volumeInfo']['publishedDate'])->setTime(0, 0);
+        }
+
         return new Book($item['volumeInfo']['title'],
-            $item['volumeInfo']['subtitle'],
-            $item['volumeInfo']['authors'],
-            $item['volumeInfo']['printType'],
-            intval($item['volumeInfo']['pageCount']),
-            $item['volumeInfo']['publisher'],
-            DateTime::createFromFormat('Y-m-d', $item['volumeInfo']['publishedDate'])->setTime(0, 0),
-            $item['volumeInfo']['averageRating'],
+            $this->getOrDefault($item['volumeInfo'], 'subtitle', null),
+            $this->getOrDefault($item['volumeInfo'], 'authors', null),
+            $this->getOrDefault($item['volumeInfo'], 'printType', null),
+            intval($this->getOrDefault($item['volumeInfo'], 'pageCount', null)),
+            $this->getOrDefault($item['volumeInfo'], 'publisher', null),
+            $publishedDate,
+            $this->getOrDefault($item['volumeInfo'], 'averageRating', null),
             $item['volumeInfo']['imageLinks']['thumbnail'],
-            $item['volumeInfo']['language'],
-            $item['volumeInfo']['categories']);
+            $this->getOrDefault($item['volumeInfo'], 'language', null),
+            $this->getOrDefault($item['volumeInfo'], 'categories', []));
+    }
+
+    private function getOrDefault($array, $key, $default)
+    {
+        if (array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+
+        return $default;
     }
 
     /**
