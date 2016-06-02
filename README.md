@@ -1,15 +1,13 @@
-Google Books
-============
-A simple client for the Google Books API, with limited functionality for now.
-
-
 <a href="https://styleci.io/repos/59841617"><img src="https://styleci.io/repos/59841617/shield" alt="StyleCI Status"></img></a>
 <a href="https://travis-ci.org/AntoineAugusti/google-books"><img src="https://img.shields.io/travis/AntoineAugusti/google-books/master.svg?style=flat-square" alt="Build Status"></img></a>
-<a href="https://scrutinizer-ci.com/g/AntoineAugusti/google-books/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/AntoineAugusti/google-books.svg?style=flat-square" alt="Coverage Status"></img></a>
+[![Coverage Status](http://codecov.io/github/AntoineAugusti/google-books/coverage.svg?branch=master)](http://codecov.io/github/AntoineAugusti/google-books?branch=master)
 <a href="https://scrutinizer-ci.com/g/AntoineAugusti/google-books"><img src="https://img.shields.io/scrutinizer/g/AntoineAugusti/google-books.svg?style=flat-square" alt="Quality Score"></img></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></img></a>
 <a href="https://github.com/AntoineAugusti/google-books/releases"><img src="https://img.shields.io/github/release/AntoineAugusti/google-books.svg?style=flat-square" alt="Latest Version"></img></a>
 
+Google Books
+============
+A simple client for the Google Books API, with limited functionality for now.
 
 ## Installation
 
