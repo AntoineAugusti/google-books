@@ -62,8 +62,8 @@ class Fetcher
     {
         $item = $res['items'][0];
 
-        $publishedDate = null;
-        if (array_key_exists('publishedDate', $item['volumeInfo'])) {
+        $publishedDate = $this->getOrDefault($item['volumeInfo'], 'publishedDate', null);
+        if (!is_null($publishedDate)) {
             $publishedDate = DateTime::createFromFormat('Y-m-d', $item['volumeInfo']['publishedDate'])->setTime(0, 0);
         }
 
