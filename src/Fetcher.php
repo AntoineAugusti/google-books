@@ -70,12 +70,12 @@ class Fetcher
             $publishedDateFormat = 'Y-m-d';
             $publishedDate = DateTime::createFromFormat('Y-m-d|', $item['volumeInfo']['publishedDate']);
 
-            if($publishedDate == false){
+            if ($publishedDate == false) {
                 $publishedDateFormat = 'Y-m';
                 $publishedDate = DateTime::createFromFormat('Y-m|', $item['volumeInfo']['publishedDate']);
             }
 
-            if($publishedDate == false){
+            if ($publishedDate == false) {
                 $publishedDateFormat = 'Y';
                 $publishedDate = DateTime::createFromFormat('Y|', $item['volumeInfo']['publishedDate']);
             }

@@ -13,7 +13,7 @@ use PHPUnit_Framework_TestCase;
 
 class FetcherTest extends PHPUnit_Framework_TestCase
 {
-    /** @var  \AntoineAugusti\Books\Fetcher */
+    /** @var \AntoineAugusti\Books\Fetcher */
     private $fetcher;
 
     protected function setUp()
