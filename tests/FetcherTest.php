@@ -13,6 +13,7 @@ use PHPUnit_Framework_TestCase;
 
 class FetcherTest extends PHPUnit_Framework_TestCase
 {
+    /** @var  \AntoineAugusti\Books\Fetcher */
     private $fetcher;
 
     protected function setUp()
@@ -73,7 +74,7 @@ class FetcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException AntoineAugusti\Books\InvalidResponseException
+     * @expectedException \AntoineAugusti\Books\InvalidResponseException
      * @expectedExceptionMessage Invalid response. Status: 404. Body:
      */
     public function it_handles_a_404()
@@ -85,7 +86,7 @@ class FetcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException AntoineAugusti\Books\InvalidResponseException
+     * @expectedException \AntoineAugusti\Books\InvalidResponseException
      * @expectedExceptionMessage Did not get 1 result. Got: 2
      */
     public function it_handles_multiple_results()
