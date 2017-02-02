@@ -37,7 +37,8 @@ class FetcherTest extends PHPUnit_Framework_TestCase
      */
     public function it_fetches_a_book()
     {
-        $res = $this->fetcher->forISBN('9780142181119');
+        // Fetch https://www.googleapis.com/books/v1/volumes?q=isbn:9780525953739
+        $res = $this->fetcher->forISBN('9780525953739');
 
         $this->assertEquals('Average is Over', $res->title);
         $this->assertEquals('Powering America Beyond the Age of the Great Stagnation', $res->subtitle);

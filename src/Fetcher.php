@@ -37,7 +37,7 @@ class Fetcher
             throw new InvalidArgumentException('ISBN is not valid. Got: '.$isbn);
         }
 
-        // Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9780142181119
+        // Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9780525953739
         $response = $this->client->request('GET', 'volumes', [
             'query'       => ['q' => 'isbn:'.$isbn],
             'http_errors' => false,
