@@ -81,9 +81,8 @@ class Fetcher
             }
 
             if ($publishedDate == false) {
-                throw new \Exception('Was not hable to parse publishedDate: ' . $item['volumeInfo']['publishedDate']);
+                throw new \Exception('Was not hable to parse publishedDate: '.$item['volumeInfo']['publishedDate']);
             }
-
         }
 
         return new Book($item['volumeInfo']['title'],
