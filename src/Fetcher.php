@@ -63,8 +63,27 @@ class Fetcher
         $item = $res['items'][0];
 
         $publishedDate = $this->getOrDefault($item['volumeInfo'], 'publishedDate', null);
+        $publishedDateFormat = null;
+
         if (!is_null($publishedDate)) {
-            $publishedDate = DateTime::createFromFormat('Y-m-d', $item['volumeInfo']['publishedDate'])->setTime(0, 0);
+            // Book's published date can have different format 'Y-m-d', 'Y-m' or 'Y'.
+            $publishedDateFormat = 'Y-m-d';
+            $publishedDate = DateTime::createFromFormat('Y-m-d|', $item['volumeInfo']['publishedDate']);
+
+            if($publishedDate == false){
+                $publishedDateFormat = 'Y-m';
+                $publishedDate = DateTime::createFromFormat('Y-m|', $item['volumeInfo']['publishedDate']);
+            }
+
+            if($publishedDate == false){
+                $publishedDateFormat = 'Y';
+                $publishedDate = DateTime::createFromFormat('Y|', $item['volumeInfo']['publishedDate']);
+            }
+
+            if ($publishedDate == false) {
+                throw new \Exception('Was not hable to parse publishedDate: ' . $item['volumeInfo']['publishedDate']);
+            }
+
         }
 
         return new Book($item['volumeInfo']['title'],
@@ -74,6 +93,7 @@ class Fetcher
             intval($this->getOrDefault($item['volumeInfo'], 'pageCount', null)),
             $this->getOrDefault($item['volumeInfo'], 'publisher', null),
             $publishedDate,
+            $publishedDateFormat,
             $this->getOrDefault($item['volumeInfo'], 'averageRating', null),
             $item['volumeInfo']['imageLinks']['thumbnail'],
             $this->getOrDefault($item['volumeInfo'], 'language', null),

@@ -39,13 +39,14 @@ class FetcherTest extends PHPUnit_Framework_TestCase
     {
         $res = $this->fetcher->forISBN('9780142181119');
 
-        $this->assertEquals('Average Is Over', $res->title);
+        $this->assertEquals('Average is Over', $res->title);
         $this->assertEquals('Powering America Beyond the Age of the Great Stagnation', $res->subtitle);
         $this->assertEquals(['Tyler Cowen'], $res->authors);
         $this->assertEquals('BOOK', $res->printType);
         $this->assertEquals(290, $res->pageCount);
-        $this->assertEquals('Plume', $res->publisher);
-        $this->assertEquals(new DateTime('2014-08-26'), $res->publishedDate);
+        $this->assertEquals('Dutton Adult', $res->publisher);
+        $this->assertEquals(new DateTime('2013-01-01'), $res->publishedDate);
+        $this->assertEquals('Y', $res->publishedDateFormat);
         $this->assertGreaterThan(1, $res->averageRating);
         $this->assertTrue($this->startsWith($res->thumbnail, 'http://'));
         $this->assertEquals('en', $res->language);
