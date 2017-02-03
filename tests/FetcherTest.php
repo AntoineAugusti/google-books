@@ -13,6 +13,7 @@ use PHPUnit_Framework_TestCase;
 
 class FetcherTest extends PHPUnit_Framework_TestCase
 {
+    /** @var \AntoineAugusti\Books\Fetcher */
     private $fetcher;
 
     protected function setUp()
@@ -36,15 +37,17 @@ class FetcherTest extends PHPUnit_Framework_TestCase
      */
     public function it_fetches_a_book()
     {
-        $res = $this->fetcher->forISBN('9780142181119');
+        // Fetch https://www.googleapis.com/books/v1/volumes?q=isbn:9780525953739
+        $res = $this->fetcher->forISBN('9780525953739');
 
-        $this->assertEquals('Average Is Over', $res->title);
+        $this->assertEquals('Average is Over', $res->title);
         $this->assertEquals('Powering America Beyond the Age of the Great Stagnation', $res->subtitle);
         $this->assertEquals(['Tyler Cowen'], $res->authors);
         $this->assertEquals('BOOK', $res->printType);
         $this->assertEquals(290, $res->pageCount);
-        $this->assertEquals('Plume', $res->publisher);
-        $this->assertEquals(new DateTime('2014-08-26'), $res->publishedDate);
+        $this->assertEquals('Dutton Adult', $res->publisher);
+        $this->assertEquals(new DateTime('2013-01-01'), $res->publishedDate);
+        $this->assertEquals('Y', $res->publishedDateFormat);
         $this->assertGreaterThan(1, $res->averageRating);
         $this->assertTrue($this->startsWith($res->thumbnail, 'http://'));
         $this->assertEquals('en', $res->language);
@@ -73,7 +76,7 @@ class FetcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException AntoineAugusti\Books\InvalidResponseException
+     * @expectedException \AntoineAugusti\Books\InvalidResponseException
      * @expectedExceptionMessage Invalid response. Status: 404. Body:
      */
     public function it_handles_a_404()
@@ -85,7 +88,7 @@ class FetcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException AntoineAugusti\Books\InvalidResponseException
+     * @expectedException \AntoineAugusti\Books\InvalidResponseException
      * @expectedExceptionMessage Did not get 1 result. Got: 2
      */
     public function it_handles_multiple_results()

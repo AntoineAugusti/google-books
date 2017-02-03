@@ -37,7 +37,7 @@ class Fetcher
             throw new InvalidArgumentException('ISBN is not valid. Got: '.$isbn);
         }
 
-        // Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9780142181119
+        // Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9780525953739
         $response = $this->client->request('GET', 'volumes', [
             'query'       => ['q' => 'isbn:'.$isbn],
             'http_errors' => false,
@@ -63,9 +63,7 @@ class Fetcher
         $item = $res['items'][0];
 
         $publishedDate = $this->getOrDefault($item['volumeInfo'], 'publishedDate', null);
-        if (!is_null($publishedDate)) {
-            $publishedDate = DateTime::createFromFormat('Y-m-d', $item['volumeInfo']['publishedDate'])->setTime(0, 0);
-        }
+        list($publishedDate, $publishedDateFormat) = $this->parseDate($publishedDate);
 
         return new Book($item['volumeInfo']['title'],
             $this->getOrDefault($item['volumeInfo'], 'subtitle', null),
@@ -74,10 +72,34 @@ class Fetcher
             intval($this->getOrDefault($item['volumeInfo'], 'pageCount', null)),
             $this->getOrDefault($item['volumeInfo'], 'publisher', null),
             $publishedDate,
+            $publishedDateFormat,
             $this->getOrDefault($item['volumeInfo'], 'averageRating', null),
             $item['volumeInfo']['imageLinks']['thumbnail'],
             $this->getOrDefault($item['volumeInfo'], 'language', null),
             $this->getOrDefault($item['volumeInfo'], 'categories', []));
+    }
+
+    /**
+     * Parse the publication date.
+     *
+     * @param string $rawDate
+     *
+     * @return array The publication in DateTime and the date format
+     */
+    private function parseDate($rawDate)
+    {
+        foreach (['Y-m-d', 'Y-m', 'Y'] as $dateFormat) {
+            $publishedDate = DateTime::createFromFormat($dateFormat.'|', $rawDate);
+            if ($publishedDate !== false) {
+                break;
+            }
+        }
+
+        if ($publishedDate === false) {
+            $publishedDate = null;
+        }
+
+        return [$publishedDate, $dateFormat];
     }
 
     private function getOrDefault($array, $key, $default)
