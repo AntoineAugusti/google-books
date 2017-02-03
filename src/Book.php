@@ -34,7 +34,7 @@ class Book
      * @param string   $language
      * @param array    $categories
      */
-    public function __construct($title, $subtitle, array $authors, $printType, $pageCount, $publisher, DateTime $publishedDate, $publishedDateFormat, $averageRating, $thumbnail, $language, array $categories)
+    public function __construct($title, $subtitle, array $authors, $printType, $pageCount, $publisher, DateTime $publishedDate = null, $publishedDateFormat, $averageRating, $thumbnail, $language, array $categories)
     {
         $this->title = $title;
         $this->subtitle = $subtitle;

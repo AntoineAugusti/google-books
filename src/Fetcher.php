@@ -63,27 +63,7 @@ class Fetcher
         $item = $res['items'][0];
 
         $publishedDate = $this->getOrDefault($item['volumeInfo'], 'publishedDate', null);
-        $publishedDateFormat = null;
-
-        if (!is_null($publishedDate)) {
-            // Book's published date can have different format 'Y-m-d', 'Y-m' or 'Y'.
-            $publishedDateFormat = 'Y-m-d';
-            $publishedDate = DateTime::createFromFormat('Y-m-d|', $item['volumeInfo']['publishedDate']);
-
-            if ($publishedDate == false) {
-                $publishedDateFormat = 'Y-m';
-                $publishedDate = DateTime::createFromFormat('Y-m|', $item['volumeInfo']['publishedDate']);
-            }
-
-            if ($publishedDate == false) {
-                $publishedDateFormat = 'Y';
-                $publishedDate = DateTime::createFromFormat('Y|', $item['volumeInfo']['publishedDate']);
-            }
-
-            if ($publishedDate == false) {
-                throw new \Exception('Was not hable to parse publishedDate: '.$item['volumeInfo']['publishedDate']);
-            }
-        }
+        list($publishedDate, $publishedDateFormat) = $this->parseDate($publishedDate);
 
         return new Book($item['volumeInfo']['title'],
             $this->getOrDefault($item['volumeInfo'], 'subtitle', null),
@@ -97,6 +77,29 @@ class Fetcher
             $item['volumeInfo']['imageLinks']['thumbnail'],
             $this->getOrDefault($item['volumeInfo'], 'language', null),
             $this->getOrDefault($item['volumeInfo'], 'categories', []));
+    }
+
+    /**
+     * Parse the publication date.
+     *
+     * @param string $rawDate
+     *
+     * @return array The publication in DateTime and the date format
+     */
+    private function parseDate($rawDate)
+    {
+        foreach (['Y-m-d', 'Y-m', 'Y'] as $dateFormat) {
+            $publishedDate = DateTime::createFromFormat($dateFormat.'|', $rawDate);
+            if ($publishedDate !== false) {
+                break;
+            }
+        }
+
+        if ($publishedDate === false) {
+            $publishedDate = null;
+        }
+
+        return [$publishedDate, $dateFormat];
     }
 
     private function getOrDefault($array, $key, $default)
